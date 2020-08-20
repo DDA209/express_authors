@@ -85,7 +85,7 @@ app.get('/*', (req, res) => {
         console.log("Erreur de n° d'auteur");
         res.send( `The author with the ID ${authorId} does not exist`);
 
-    } else if (authorId <= api.length && authorId > 0) {
+    } else if (authorId <= api.length && authorId > 0) { // section des ouvrages
         if (arrGetUrl[2]){
 
             // res.send(`<h2>${api[authorId -1 ].author}</h2>`)
@@ -109,12 +109,13 @@ app.get('/*', (req, res) => {
             ` );
             
 
-        } else {
+        } else { // section de l'auteur et nationnalité
 
             // console.log('api[authorId].name', api[authorId -1].author);
             res.send(`
                 ${homePage}
                 <h2>${api[authorId -1 ].author}</h2>
+                <p>Nationality: ${api[authorId -1 ].nationality}</p>
                 <a href="${authorId}/books"><p>Livres</p></a>
             `);
 
