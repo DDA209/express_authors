@@ -33,62 +33,96 @@ const api = [
         id: 5,
         author: 'Didier Pascarel',
         nationality: 'FR',
-        books: null
+        books: []
     }
 ]
 
+const homePage = '<a href="../../"><p>Homepage</p></a>'
 
 let authorId = 0;
 let arrGetUrl = [];
 
 // Homepage
-app.get('/', (req, res) => {
-    console.log('GET /')
+app.get('/', (req, res,) => {
+    console.log('GET /');
 
-    res.send('Authors API')
+    let authors = '';
+
+    api.map( (obj) => {
+        // console.log('obj', obj.author)
+        authors = authors + `<li><a href="./${obj.id}">${obj.author}</a></li>`
+    })
+
+    res.send(`
+        <h1>Authors API</h1>
+        <ol>
+            ${authors}
+        </ol>
+    `);
 
 });
 
 
 // other pages
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
     arrGetUrl = req.url.split('/'); // récupération des éléments de l'URL dans un array
     authorId = parseInt(arrGetUrl[1]); // récupération de l'ID de l'auteur dans l'URL
 
     console.log('GET * :'); 
     console.log('1 - req.url',req.url); // URL user
-    console.log('2 - arrGetUrl', arrGetUrl);
+    // console.log('2 - arrGetUrl', arrGetUrl);
     console.log('3 - authorId', authorId);
-    console.log('4 - api.length', api.length);
-    console.log('----------------------------');
+    // console.log('4 - api.length', api.length);
+    // console.log('5 - arrGetUrl[3]', arrGetUrl[3]);
 
 
-    if ( authorId === NaN ) {
-        //s'il y a trop d'arguments ou que l'ID de l'auteur de l'URL n'est pas un nombre on renvoie à la homepage
-        res.send('<p>Error page not found. <a href="/">Go to homepage</a></p>')
+    if ( isNaN(authorId) || arrGetUrl.length > 3 || (arrGetUrl.length === 3 && arrGetUrl[2] !== 'books')  ) {
+        console.log("Erreur 404");
+        res.send(`404 error : This page does not exists. Go to${homePage}` )
         
-    } else if (authorId <= api.length) {
+    } else if (authorId > api.length || authorId < 1) {
+
+        console.log("Erreur de n° d'auteur");
+        res.send( `The author with the ID ${authorId} does not exist`);
+
+    } else if (authorId <= api.length && authorId > 0) {
         if (arrGetUrl[2]){
 
             // res.send(`<h2>${api[authorId -1 ].author}</h2>`)
-            console.log('api[authorId -1 ].books', api[authorId -1 ].books);
+            // console.log('api[authorId -1 ].books', api[authorId -1 ].books);
             
-            res.send( 
-                api[authorId -1 ].books.map( (book)=>{
-                `<p>${book}</p>` 
-                })
-                
-            );
+            let result = ''
+            
+            api[authorId -1 ].books.map( (book)=>{
+                // console.log('book', book);
+                result = result + `<p>${book}</p>`
+            });
+            
+            // console.log('result', result);
+
+            res.send( `
+                ${homePage}
+                <a href="../${authorId}">
+                    <h3>${api[authorId -1 ].author}</h3>
+                </a>
+                ${result}
+            ` );
+            
 
         } else {
 
-            console.log('api[authorId].name', api[authorId -1].author);
-            res.send( `<h3>${api[authorId -1 ].author}</h3>` );
+            // console.log('api[authorId].name', api[authorId -1].author);
+            res.send(`
+                ${homePage}
+                <h2>${api[authorId -1 ].author}</h2>
+                <a href="${authorId}/books"><p>Livres</p></a>
+            `);
 
         };
-    } else {
-        `The author with the ID ${authorId} does not exist`;
+    
     };
+
+    // console.log('----------------------------');
     
 })         
 

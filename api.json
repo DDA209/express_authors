@@ -1,0 +1,46 @@
+[
+    {
+        "id": 1,
+        "author": "Lawrence Nowell",
+        "nationality": "UK",
+        "books": [
+            "Beowulf"
+        ]
+    },
+    {
+        "id": 2,
+        "author": "William Shakespeare",
+        "nationality": "UK",
+        "books": [
+            "Hamlet",
+            "Othello",
+            "Romeo and Juliet",
+            "MacBeth"
+        ]
+    },
+    {
+        "id": 3,
+        "author": "Charles Dickens",
+        "nationality": "US",
+        "books": [
+            "Oliver Twist",
+            "A Christmas Carol"
+        ]
+    },
+    {
+        "id": 4,
+        "author": "Oscar Wilde",
+        "nationality": "UK",
+        "books": [
+            "The Picture of Dorian Gray",
+            "The Importance of Being Earnest"
+        ]
+    },
+    {
+        "id": "5",
+        "author": "Didier Pascarel",
+        "nationality": "FR",
+        "books": [
+        ]
+    }
+]
